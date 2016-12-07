@@ -1,0 +1,2 @@
+This is a test dataset, showing a set of disks under uniaxial compression.
+(c) Jonathan Kollmer (jekollme@ncsu.edu)
