@@ -1,0 +1,28 @@
+joForceAdjMat
+post-process the disk solver data and compute adjacency matrices and some statistics 
+
+1. User defined parameters
+
+- which files are we processing ?
+- in which directory are these files
+- fmin: minimum force (in Newton) to consider a contact a valid contact
+- fmax: maximum force (in Newton) to consider a contact a valid contact
+- emax: maximum fit error/residual to consider a contact a valid contact
+- verbose: make lots of plots as we go
+- (optional) coordinate system transformation (i.e. if you processed only part of an image)
+
+2. Program
+
+- for all specified files
+- read the solved file
+- read the original force image
+- generate a synthetic version of the force image from the solved data
+- build a list of contacts
+	* check if contact is valid by comparing to fmin, fmax & emax
+	* compute normal and tangential force from fabs and alpha
+	* add the contact to the adjacency matrix
+	* plot contact lines on top of orignal image
+
+- write the synthetic image to disc
+- write the contact line overlay image to disc
+- write the adjacency matrix to disc

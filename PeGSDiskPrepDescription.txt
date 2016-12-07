@@ -1,0 +1,57 @@
+% Particle Detector, Neighbour finder and Contact validator that creates input files for my Photoelastic Disk Solver
+
+1. Set user defined values
+
+pxPerMeter: How many meters are in a pixel
+Rlarge: What radius (in pixels) range do we expect for the small discs?
+Rsmall: What radius (in pixels) range do we expect for the small discs?
+SL : Sensitivity of the Hough Transform disc detetcor, exact value is Voodo magic...
+SS : Sensitivity of the Hough Transform disc detetcor, exact value is Voodo magic...
+fsigma : photoelastic stress coefficient
+g2cal : Calibration Value for the g^2 method, can be computed by joG2cal.m 
+dtol : How far away can the outlines of 2 particles be to still be considered Neighbours
+contactG2Threshold : sum of g2 in a contact area larger than this determines a valid contact
+CR : radius around a contactact point that is checked for contact validation
+%Position of the confing walls %TODO: Add automatic wall finding
+files : list of files which files are we processing ?
+directory : the directory in which our files live
+doParticleDetection : detect particles or use centers-file ?
+verbose : if "true" then generate lots of plots showing the results
+
+
+2. Program
+
+- loop over all entries in $files
+- if we do particle detection
+	* generate full filename
+	* read a color image that has particles in red and forces in green channel
+	* split the color channels
+	* adjust the red channel image for better contrast
+	* call the matlab imfindcircles function (for each particle species)
+- else read centers file
+- store the result in the particle data structure
+	* particle: id,x,y,r,rm,color,fsigma,z,f,g2,forces,betas,alphas,neighbours,contactG2s,forceImage,...
+	* convert pixel radius to metric
+	* assign color based on radius (thresholded)
+- crop out particles (from the green channel) and store the PE response of each particle in the particle datastructure
+	* create a circular mask for setting everything outside the particle radius to zero (since we can only crop rectangles)
+	* crops out a particle
+	* compute gradient of cropped image
+	* mask out everything from gradient image that is outside radius-1
+	* compute g^2 for the particle
+- find neigbours (this is done somewhat inefficient right now)
+	* get surface distance between any two particles and compare to threshold
+	* if closer than threshold determine contact point (where the two particles touch)
+	* compute g2 of a circular region at the contact point inside each of the two particles in contact (see figure)
+	* if g2 in BOTH contact areas is higher than g2threshold then the contact is declared valid
+	* if contact valid update particle data structure:
+		+ increase ccordination number
+		+ remember the g2 value of the current contact area
+		+ add particle 2 as a neigbour in the particle 1 datastructure
+		+ add beta (the contact angle to particle 2 in the coordinate system of particle 1) 
+	* check if any of the walls is a neighbour as well and treat accordingly (contact IDs are negative numbers in this case)
+	* as a user check plot the contact network in top of the force image
+- save the particle datastructure as a matlab .mat file (filename of image with suffix "_preprosessing.mat"
+
+       
+

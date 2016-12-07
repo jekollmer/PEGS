@@ -1,0 +1,37 @@
+Jonathan's Photoelastic Disk Solver
+Takes input from preprocessing script joDiskPrep.m as of 2016/09/27
+
+% The generation of the synthetic force images is parallelized 
+% in a way that each row of the ouput image can be its own worker/thread
+% it is usually limited by your number of processing cores though. 
+%
+% Running this script may take a long time (up to one minute per particle
+% on a 2016 desktop computer) so it makes sense to send this off to a high
+% performance computer. 
+%
+% Depending on your experimental data you can play around with the fit
+% options, which might speed up processing considerabely.
+%
+
+1. User defined values:
+
+- specify which files are we processing
+- specify directory in which the files are living
+- files: assemble a list of all files in the specified directory that are to be processed (e.g. everything ending in "_preprocessing.mat")
+- how much of the particle diameter is used to fit the synthetic image 
+- scaling = 0.5; %scale the image by this factor before doing the fit
+- verbose: do we want to see each particle on screen while it is fitted ?
+- fit options: play around with these, depending on the quality of your images and the accuracy you want your result to have. Setting a good TolFun value can considerabely speed up your processing. example: optimoptions('lsqnonlin','Algorithm','levenberg-marquardt','MaxIter',100,'MaxFunEvals',400,'TolFun',0.01,'Display','final-detailed');
+
+2. processing
+
+- for each file in the file list
+- load the file
+- calculate initial guess for contact forces based on the g^2 method (first calculate  total force on particle, then partiton for all its contacts based on the contact area g^2
+- make an initial guess for the angles of attack (alpha) of each contact based on fulfulling force-balance (this is optional but will result in a better result)
+- define the fitting function (i.e. function call to the stress engine. see other file)
+- define the error / distance function, i.e. sum of sqares of differences between the synthetic image and the experimental image
+- call lsqnonlin or fminsearch or ... (the optimizer) with the distance function and forces + alphas as free parameters
+- apply force balance for each iteration (see separate file) (this is optional but will give a better result)
+- save the fit result and the residual into the particle data structue
+- save the particle data structure into a file on disk based on the preprocessing filename suffixed with "_solved.mat".
