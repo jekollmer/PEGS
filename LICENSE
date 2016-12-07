@@ -1,6 +1,6 @@
-MIT License
+PeGS License
 
-Copyright (c) 2016 jekollmer
+Copyright (c) 2016 Jonathan Kollmer (jekollmer@ncsu.edu)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -11,6 +11,13 @@ furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
+
+The following publication shall be cited if the Software or substantial portions
+of the Software are used in a scientific or research context:
+
+'Photoelastic force measurements in granular materials', 
+by Daniels, K.E., Kollmer, J.E., Puckett, J.G., 
+submitted to Rev. Sci. Inst. (2016)
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
