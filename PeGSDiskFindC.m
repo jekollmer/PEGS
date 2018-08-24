@@ -66,6 +66,7 @@ xv = syncirdif(double(img(:,:,1)), x0, Nsmall, Nlarge, rkerd1, rkerd2);
 cir1 = [xv(1:Nsmall)',xv((Nsmall+1):(2*Nsmall))',(xv((2*Nsmall+1):(3*Nsmall))/2)',(xv((3*Nsmall+1):(4*Nsmall)))']; %[r,c,r,w]
 cir2 = [xv((4*Nsmall+1):(4*Nsmall+Nlarge))',(xv((4*Nsmall+Nlarge+1):(4*Nsmall+2*Nlarge)))',(xv((2*Nlarge+4*Nsmall+1):(3*Nlarge+4*Nsmall))/2)',(xv((3*Nlarge+4*Nsmall+1):(4*Nsmall+4*Nlarge)))'];
 circ = [cir1;cir2];
+circ(:,2:3) = circ(:,2:3) - 2;
 
 circ = sortrows(circ,3);
 circs = flipud(circ);
