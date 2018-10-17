@@ -25,7 +25,7 @@ nFrames = length(files); %How many files are we processing ?
 
 % Hough Transform Values
 
-doParticleDetectionH = true; %Detect particles using Hough Transform?
+doParticleDetectionH = false; %Detect particles using Hough Transform?
 HoughDebug = false; %Debugs Hough Sensitivities so particles are found "better"
 
 DS = 0.0025; % How much should we adjust sensitivity if wrong number of particles are found
@@ -39,15 +39,15 @@ NlargeH = 14; %Number of large discs. Only used in Hough Debug.
 
 % Convolution Method Values
 
-doParticleDetectionC = false; %Detect particles using convolution method?
+doParticleDetectionC = true; %Detect particles using convolution method?
 ConvDebug = false;
 
-RlargeC = 66; %What radius (in pixels) do we expect for the large discs?
-RsmallC = 47; %What radius (in pixels) do we expect for the small discs? 
+RlargeC = 31; %What radius (in pixels) do we expect for the large discs?
+RsmallC = 21; %What radius (in pixels) do we expect for the small discs? 
 %Note: The above can be input in a range ONLY if the ConvDebug is set to
 %Note: true. Otherwise, the program needs the radius that works.
-NsmallC = 15; %Number of small discs. Needed for Convolution.
-NlargeC = 14; %Number of large discs. Needed for Convolution.
+NsmallC = 507; %Number of small discs. Needed for Convolution.
+NlargeC = 273; %Number of large discs. Needed for Convolution.
 
 % Neighbour Finding Values
 

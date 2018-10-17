@@ -5,17 +5,24 @@ function [particle] = PeGSDiskFindC(img, Rsmall, Nsmall, Rlarge, Nlarge)
 kerd1=Rsmall*2;
 kerd2=Rlarge*2;
 
-[imrf, imgf] = fftfilt(img); %Filters the image
+% Fourier filtering
+% [imrf, imgf] = fftfilt(img); %Filters the image
+% 
+% for l = 1:5
+%     imrf = im2double(imrf);
+%     imrf(imrf > 3/4 * max(imrf)) = 2/3*max(imrf(:));
+% end
+% imgf = im2double(imgf);
+% im = imrf + imgf/(1/5*max(imgf(:)));
+% im = imadjust((im),stretchlim(im));
+% im = im + 1/4*imrf;
+% im(im < -10) = im(im < -10)/min(im(im < -10));
 
-for l = 1:5
-    imrf = im2double(imrf);
-    imrf(imrf > 3/4 * max(imrf)) = 2/3*max(imrf(:));
-end
-imgf = im2double(imgf);
-im = imrf + imgf/(1/5*max(imgf(:)));
-im = imadjust((im),stretchlim(im));
-im = im + 1/4*imrf;
-im(im < -10) = im(im < -10)/min(im(im < -10));
+% Thresholding
+imrf = img(:,:,1);
+gaussianFit = fitgmdist(double(imrf(:)),3); %Fit the histogram of intensities with the sum of 3 gaussians
+centersFit = sort(gaussianFit.mu);
+im = double((imrf-centersFit(2))*(150/highFit));
 
 ker1=kerncreate(0,kerd1+2,kerd1/2);
 ker2=kerncreate(0,kerd2+2,kerd2/2); %Creates each kernel
@@ -79,7 +86,7 @@ for l = 1:N
     particle(l).y = circ(l,1);
     particle(l).r = circ(l,3);
     particle(l).id = l;
-    if l <= Nsmall
+    if l <= Nlarge
         particle(l).color = 'b';
     else
         particle(l).color = 'r';
