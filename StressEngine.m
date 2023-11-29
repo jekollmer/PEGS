@@ -53,13 +53,12 @@ function result = StressEngine(xxi, xxj, z, f, alpha, beta, fsigma, rm)
             signth = -1;
         end 
         th1    = signth*acos(costh1);     %faster than cos(asin(stuff));
-        s2  = -(f(k)*oneoverpirm)*(-sin(a)); %uniform compression from boundary, sin(pi-a) = -sin(a)
         s1 	= -(f(k)*twooverpi)/(r1n)*costh1;
-        sr 	= s1-s2;
         th 	= th1-beta(k)-alpha(k);              %rotate coordinates
-        sigmaxx = sigmaxx + sr*((sin(th))^2);
-        sigmayy = sigmayy + sr*((cos(th))^2);
-        sigmaxy = sigmaxy + 0.5*s1*(sin(2*th));% + s2;
+        sigmaxx = sigmaxx + s1*((sin(th))^2);
+        sigmayy = sigmayy + s1*((cos(th))^2);
+        sigmaxy = sigmaxy + 0.5*s1*(sin(2*th));
+	
    end %end of k loop over beta, alpha
    aa     = real(sqrt((sigmaxx-sigmayy)^2+4*(sigmaxy)^2));
    result = (sin(pioverfsigma*aa))^2;  %wrap    = sin(2*pi*t/fsigma*a).^2;
