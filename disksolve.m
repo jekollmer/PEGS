@@ -2,9 +2,9 @@ function particle = disksolve(particle, maskradius, scaling, fileName, verbose, 
     pres=particle;
     N = length(particle); %number of particles in this frame
     
-    display(['processing file ',fileName, 'containing ' ,num2str(N), 'particles']); %status indicator
+    disp(['processing file ',fileName, 'containing ' ,num2str(N), 'particles']); %status indicator
 
-    for n=1:N
+    parfor (n=1:N)
         display(['fitting force(s) to particle ',num2str(n)]); %status indicator
         if (particle(n).z > 0 )
                     %bookkeeping
@@ -68,8 +68,10 @@ function particle = disksolve(particle, maskradius, scaling, fileName, verbose, 
                     err = @(par) real(sum(sum( ( c_mask.*(template-func(par)).^2) ))); %BUG: for some reason I sometimes get imaginary results, this should not happen
 
                     %Set up initial guesses
+                    p0 = zeros(2*z, 1);
                     p0(1:z) = forces;
                     p0(z+1:2*z) = alphas;
+
 
                     %Do the fit, will also work with other solvers
                     %TODO: make a user defined option to select between
