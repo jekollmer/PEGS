@@ -51,20 +51,9 @@ fitoptions = optimoptions('lsqnonlin','Algorithm','levenberg-marquardt','MaxIter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
 nFrames = length(files); %how many files are we processing ?
-% for frame = 1:nFrames %loop over these frames 
-% 
-%     fileName = [directory,files(frame).name]; %which file/frame are we processing now ?
-%     maskradius = maskradius / 2; %I did an unwise choice in naming this
-%     data =load(fileName); %load the particle data file to process
-%     %initialize a copy of the particle vector to mess around with
-%     particle = data.particle
-%     disksolve2(particle, maskradius, scaling, fileName)
-    
-%end
-    
+
+
 for frame = 1:nFrames %loop over these frames 
-%for frame =1:9
-    %frame = frame
     fileName = [directory,files(frame).name];
     data = load(fileName);
     particle = data.particle;
